@@ -1,7 +1,7 @@
 include("autorun/dubz_miners_config.lua")
 
 local defaults = Dubz.MinerDefaults or {}
-local minerCfg = Dubz.Miners and Dubz.Miners["Dubz_S9_Miner"] or {}
+local minerCfg = Dubz.Miners and Dubz.Miners["dubz_s9_miner"] or {}
 
 ENT.Type                        = "anim"
 ENT.Base                        = "base_gmodentity"

@@ -35,6 +35,10 @@ Dubz.MinerUI = {
     NextPrintLabel = "Next print in %ss",
     StorageLabel = "Storage Limit: %s BTC",
     CashoutRateLabel = "Cashout Rate: $%s / BTC",
+    HudWidth = 360,
+    HudHeight = 140,
+    HudMarginY = 150,
+    HudMaxDistance = 250
 }
 
 Dubz.MinerMessages = {
@@ -58,18 +62,18 @@ Dubz.BitcoinPrice = 1000 -- DarkRP cash received per 1 BTC when cashed out
 
 -- Each miner definition uses the entity classname as the key for easier lookup.
 Dubz.Miners = {
-    ["Dubz_S9_Miner"] = {
+    ["dubz_s9_miner"] = {
         DisplayName = "Dubz S9 Miner",
-        Model = "models/dubz_miners/dubz_s9_miner.mdl",
+        Model = "models/dubz_miners/dubz_s9_miner/dubz_s9_miner.mdl",
         PrintTime = 100,            -- Seconds between each bitcoin print
         PrintAmount = 0.015,        -- BTC created per print
         MaxStorage = 0.45,          -- Maximum BTC stored before pausing prints
         Health = 100,               -- Max health
     },
 
-    ["Dubz_S19_Miner"] = {
+    ["dubz_s19_miner"] = {
         DisplayName = "Dubz S19 Miner",
-        Model = "models/dubz_miners/dubz_s19_miner.mdl",
+        Model = "models/dubz_miners/dubz_s19_miner/dubz_s19_miner.mdl",
         PrintTime = 30,             -- Seconds between each bitcoin print
         PrintAmount = 0.045,        -- BTC created per print
         MaxStorage = 1.35,          -- Maximum BTC stored before pausing prints
