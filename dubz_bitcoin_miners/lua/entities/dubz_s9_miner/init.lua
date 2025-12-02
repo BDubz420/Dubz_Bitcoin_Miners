@@ -5,12 +5,13 @@ include("autorun/dubz_miners_config.lua")
 
 function ENT:Initialize()
     local cfg = self:GetMinerConfig()
+    local defaults = Dubz.MinerDefaults or {}
 
-    self:SetModel(cfg.Model or "models/props_c17/consolebox01a.mdl")
+    self:SetModel(cfg.Model or defaults.Model or "models/props_c17/consolebox01a.mdl")
     self:PhysicsInit(SOLID_VPHYSICS)
     self:SetMoveType(MOVETYPE_VPHYSICS)
     self:SetSolid(SOLID_VPHYSICS)
-    self:SetUseType(SIMPLE_USE)
+    self:SetUseType(defaults.UseType or SIMPLE_USE)
 
     local phys = self:GetPhysicsObject()
     if IsValid(phys) then
@@ -19,13 +20,24 @@ function ENT:Initialize()
 
     self.PrintName = cfg.DisplayName or self.PrintName
 
-    self:SetMaxHealth(cfg.Health or 100)
-    self:SetHealth(cfg.Health or 100)
+    local health = cfg.Health or defaults.Health or 100
+    self:SetMaxHealth(health)
+    self:SetHealth(health)
 
-    self:SetPrintTime(cfg.PrintTime or 60)
-    self:SetPrintAmount(cfg.PrintAmount or 0)
-    self:SetMaxStorage(cfg.MaxStorage or math.max((cfg.PrintAmount or 0) * 5, 0))
-    self:SetBitcoinPrice(Dubz.BitcoinPrice or 1000)
+    local printTime = cfg.PrintTime or defaults.PrintTime or 60
+    self:SetPrintTime(printTime)
+
+    local printAmount = cfg.PrintAmount or defaults.PrintAmount or 0
+    self:SetPrintAmount(printAmount)
+
+    local maxStorage = cfg.MaxStorage
+    if not maxStorage then
+        local multiplier = defaults.MaxStorageMultiplier or 5
+        maxStorage = math.max(printAmount * multiplier, 0)
+    end
+
+    self:SetMaxStorage(maxStorage)
+    self:SetBitcoinPrice(cfg.BitcoinPrice or Dubz.BitcoinPrice or defaults.BitcoinPrice or 1000)
     self:SetStoredBTC(0)
     self:SetNextPrint(CurTime() + self:GetPrintTime())
 end
@@ -57,7 +69,7 @@ function ENT:Use(activator)
     local stored = self:GetStoredBTC()
     if stored <= 0 then
         if activator.ChatPrint then
-            activator:ChatPrint("This miner has no bitcoin ready to cash out yet.")
+            activator:ChatPrint((Dubz.MinerMessages and Dubz.MinerMessages.Empty) or "This miner has no bitcoin ready to cash out yet.")
         end
         return
     end
@@ -74,7 +86,10 @@ function ENT:Use(activator)
     end
 
     if activator.ChatPrint then
-        activator:ChatPrint(string.format("Cashed out %.4f BTC for $%s.", stored, payout))
+        local decimals = (Dubz.MinerUI and Dubz.MinerUI.StoredDecimals) or 4
+        local storedText = string.format("%0." .. decimals .. "f", stored)
+        local payoutText = (string.Comma and string.Comma(payout)) or tostring(payout)
+        activator:ChatPrint(string.format((Dubz.MinerMessages and Dubz.MinerMessages.Cashout) or "Cashed out %s BTC for $%s.", storedText, payoutText))
     end
 end
 
