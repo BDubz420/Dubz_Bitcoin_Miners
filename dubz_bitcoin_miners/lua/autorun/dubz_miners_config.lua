@@ -16,9 +16,9 @@ Dubz.MinerTheme = {
 }
 
 Dubz.MinerFonts = {
-    Title = { font = "Roboto Bold", size = 64, weight = 800, antialias = true },
-    Subtitle = { font = "Roboto", size = 32, weight = 600, antialias = true },
-    Text = { font = "Roboto", size = 26, weight = 500, antialias = true },
+    Title = { font = "Roboto Bold", size = 48, weight = 800, antialias = true },
+    Subtitle = { font = "Roboto", size = 28, weight = 600, antialias = true },
+    Text = { font = "Roboto", size = 22, weight = 500, antialias = true },
 }
 
 Dubz.MinerUI = {
@@ -36,9 +36,10 @@ Dubz.MinerUI = {
     StorageLabel = "Storage Limit: %s BTC",
     CashoutRateLabel = "Cashout Rate: $%s / BTC",
     HudWidth = 320,
-    HudHeight = 110,
+    HudHeight = 118,
     HudMarginY = 120,
     HudPadding = 14,
+    HudLineSpacing = 6,
     HudMaxDistance = 250
 }
 

@@ -10,9 +10,9 @@ local defaultTheme = {
 }
 
 local defaultFonts = {
-    Title = { font = "Roboto Bold", size = 64, weight = 800, antialias = true },
-    Subtitle = { font = "Roboto", size = 32, weight = 600, antialias = true },
-    Text = { font = "Roboto", size = 26, weight = 500, antialias = true },
+    Title = { font = "Roboto Bold", size = 48, weight = 800, antialias = true },
+    Subtitle = { font = "Roboto", size = 28, weight = 600, antialias = true },
+    Text = { font = "Roboto", size = 22, weight = 500, antialias = true },
 }
 
 local fontsCreated = false
@@ -80,24 +80,35 @@ local function drawMinerHUD()
     local promptText = ui.PromptText or "Press E to collect & convert to DarkRP cash"
 
     local w = ui.HudWidth or 320
-    local h = ui.HudHeight or 110
     local padding = ui.HudPadding or 14
+    local lineSpacing = ui.HudLineSpacing or 6
     local x = (ScrW() - w) / 2
-    local y = ScrH() - (ui.HudMarginY or 120) - h
+    local y = ScrH() - (ui.HudMarginY or 120)
+
+    surface.SetFont("DubzMiner_Subtitle")
+    local _, titleH = surface.GetTextSize(cfg.DisplayName or ent.PrintName or "Bitcoin Miner")
+    surface.SetFont("DubzMiner_Text")
+    local _, nextH = surface.GetTextSize(nextPrintLabel)
+    local _, storedH = surface.GetTextSize(storedLabel)
+    local _, promptH = surface.GetTextSize(promptText)
+
+    local calculatedHeight = padding * 2 + titleH + nextH + storedH + promptH + (lineSpacing * 3)
+    local h = math.max(ui.HudHeight or calculatedHeight, calculatedHeight)
+    y = y - h
 
     draw.RoundedBox(10, x, y, w, h, theme.Background)
     draw.RoundedBox(10, x, y, w, 6, theme.Accent)
 
     local lineY = y + padding
     draw.SimpleText(cfg.DisplayName or ent.PrintName or "Bitcoin Miner", "DubzMiner_Subtitle", x + w / 2, lineY, theme.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+    lineY = lineY + titleH + lineSpacing
 
-    lineY = lineY + 24
     draw.SimpleText(nextPrintLabel, "DubzMiner_Text", x + w / 2, lineY, theme.SubText, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+    lineY = lineY + nextH + lineSpacing
 
-    lineY = lineY + 22
     draw.SimpleText(storedLabel, "DubzMiner_Text", x + w / 2, lineY, theme.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+    lineY = lineY + storedH + lineSpacing
 
-    lineY = lineY + 22
     draw.SimpleText(promptText, "DubzMiner_Text", x + w / 2, lineY, theme.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 end
 
