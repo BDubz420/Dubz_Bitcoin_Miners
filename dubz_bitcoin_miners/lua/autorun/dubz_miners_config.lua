@@ -1,6 +1,10 @@
 ---------------------------------------
 -- Dubz BITCOIN MINING SYSTEM CONFIG --
 ---------------------------------------
+if SERVER then
+    AddCSLuaFile()
+end
+
 Dubz = Dubz or {}
 
 Dubz.MinerTheme = {
@@ -46,6 +50,8 @@ Dubz.MinerDefaults = {
     Health = 100,
     BitcoinPrice = 1000,
     UseType = SIMPLE_USE,
+    Category = "Dubz Bitcoin Mining",
+    Author = "BDubz420",
 }
 
 Dubz.BitcoinPrice = 1000 -- DarkRP cash received per 1 BTC when cashed out

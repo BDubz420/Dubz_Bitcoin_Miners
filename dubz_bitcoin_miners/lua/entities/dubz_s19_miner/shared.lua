@@ -1,12 +1,16 @@
 include("autorun/dubz_miners_config.lua")
 
+local defaults = Dubz.MinerDefaults or {}
+local minerCfg = Dubz.Miners and Dubz.Miners["Dubz_S19_Miner"] or {}
+
 ENT.Type                        = "anim"
 ENT.Base                        = "base_gmodentity"
-ENT.PrintName                   = (Dubz.Miners and Dubz.Miners["Dubz_S19_Miner"] and Dubz.Miners["Dubz_S19_Miner"].DisplayName) or "S19 Miner"
-ENT.Category                    = "Dubz Bitcoin Mining"
-ENT.Author                      = "BDubz420"
-ENT.Spawnable                   = true
-ENT.AdminSpawnable              = true
+ENT.PrintName                   = minerCfg.DisplayName or "S19 Miner"
+ENT.Category                    = minerCfg.Category or defaults.Category or "Dubz Bitcoin Mining"
+ENT.Author                      = minerCfg.Author or defaults.Author or "BDubz420"
+ENT.Spawnable                   = minerCfg.Spawnable ~= false
+ENT.AdminSpawnable              = minerCfg.AdminSpawnable ~= false
+ENT.Model                       = minerCfg.Model or defaults.Model
 
 function ENT:GetMinerConfig()
     return Dubz.Miners and Dubz.Miners[self:GetClass()] or {}

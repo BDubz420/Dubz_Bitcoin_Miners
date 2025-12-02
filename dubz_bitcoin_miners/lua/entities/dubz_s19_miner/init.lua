@@ -11,7 +11,7 @@ function ENT:Initialize()
     self:PhysicsInit(SOLID_VPHYSICS)
     self:SetMoveType(MOVETYPE_VPHYSICS)
     self:SetSolid(SOLID_VPHYSICS)
-    self:SetUseType(defaults.UseType or SIMPLE_USE)
+    self:SetUseType(cfg.UseType or defaults.UseType or SIMPLE_USE)
 
     local phys = self:GetPhysicsObject()
     if IsValid(phys) then
@@ -32,7 +32,7 @@ function ENT:Initialize()
 
     local maxStorage = cfg.MaxStorage
     if not maxStorage then
-        local multiplier = defaults.MaxStorageMultiplier or 5
+        local multiplier = cfg.MaxStorageMultiplier or defaults.MaxStorageMultiplier or 5
         maxStorage = math.max(printAmount * multiplier, 0)
     end
 

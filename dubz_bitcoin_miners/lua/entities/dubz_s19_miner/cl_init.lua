@@ -1,7 +1,7 @@
 include("shared.lua")
 include("autorun/dubz_miners_config.lua")
 
-local theme = Dubz.MinerTheme or {
+local defaultTheme = {
     Background = Color(18, 21, 30, 240),
     Header     = Color(28, 32, 46, 255),
     Accent     = Color(0, 195, 255, 255),
@@ -9,23 +9,27 @@ local theme = Dubz.MinerTheme or {
     SubText    = Color(150, 160, 180, 255)
 }
 
-local fonts = Dubz.MinerFonts or {
+local defaultFonts = {
     Title = { font = "Roboto Bold", size = 64, weight = 800, antialias = true },
     Subtitle = { font = "Roboto", size = 32, weight = 600, antialias = true },
     Text = { font = "Roboto", size = 26, weight = 500, antialias = true },
 }
 
-local function createFonts()
-    local title = fonts.Title or { font = "Roboto Bold", size = 64, weight = 800, antialias = true }
-    local subtitle = fonts.Subtitle or { font = "Roboto", size = 32, weight = 600, antialias = true }
-    local text = fonts.Text or { font = "Roboto", size = 26, weight = 500, antialias = true }
+local fontsCreated = false
+local function ensureFonts()
+    if fontsCreated then return end
+
+    local fonts = Dubz.MinerFonts or defaultFonts
+    local title = fonts.Title or defaultFonts.Title
+    local subtitle = fonts.Subtitle or defaultFonts.Subtitle
+    local text = fonts.Text or defaultFonts.Text
 
     surface.CreateFont("DubzMiner_Title", title)
     surface.CreateFont("DubzMiner_Subtitle", subtitle)
     surface.CreateFont("DubzMiner_Text", text)
-end
 
-createFonts()
+    fontsCreated = true
+end
 
 function ENT:Draw()
     self:DrawModel()
@@ -33,12 +37,15 @@ function ENT:Draw()
 end
 
 function ENT:DrawDisplay()
+    ensureFonts()
+
     local cfg = self:GetMinerConfig()
     if not cfg then return end
 
     local pos = self:GetPos()
     local ang = self:GetAngles()
     local ui = Dubz.MinerUI or {}
+    local theme = Dubz.MinerTheme or defaultTheme
     local offset = self:GetUp() * (ui.OffsetUp or 12) + self:GetForward() * (ui.OffsetForward or 12)
     ang:RotateAroundAxis(ang:Up(), 90)
     ang:RotateAroundAxis(ang:Forward(), 90)
