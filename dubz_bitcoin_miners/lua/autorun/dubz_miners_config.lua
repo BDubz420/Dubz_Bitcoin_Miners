@@ -35,9 +35,10 @@ Dubz.MinerUI = {
     NextPrintLabel = "Next print in %ss",
     StorageLabel = "Storage Limit: %s BTC",
     CashoutRateLabel = "Cashout Rate: $%s / BTC",
-    HudWidth = 360,
-    HudHeight = 140,
-    HudMarginY = 150,
+    HudWidth = 320,
+    HudHeight = 110,
+    HudMarginY = 120,
+    HudPadding = 14,
     HudMaxDistance = 250
 }
 

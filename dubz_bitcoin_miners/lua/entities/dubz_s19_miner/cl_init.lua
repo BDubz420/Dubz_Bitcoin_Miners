@@ -73,29 +73,32 @@ local function drawMinerHUD()
     local nextPrint = ent:GetNextPrint()
     local printTime = ent:GetPrintTime()
     local timeLeft = math.max(0, nextPrint - CurTime())
-    local progress = math.Clamp(1 - (timeLeft / math.max(printTime, 0.001)), 0, 1)
 
     local formattedTime = string.format("%0." .. timeDecimals .. "f", timeLeft)
     local nextPrintLabel = string.format(ui.NextPrintLabel or "Next print in %ss", formattedTime)
     local storedLabel = string.format(ui.StoredLabel or "Stored Bitcoin: %s BTC", string.format("%0." .. storedDecimals .. "f", stored))
     local promptText = ui.PromptText or "Press E to collect & convert to DarkRP cash"
 
-    local w = ui.HudWidth or 360
-    local h = ui.HudHeight or 140
+    local w = ui.HudWidth or 320
+    local h = ui.HudHeight or 110
+    local padding = ui.HudPadding or 14
     local x = (ScrW() - w) / 2
-    local y = ScrH() - (ui.HudMarginY or 150) - h
+    local y = ScrH() - (ui.HudMarginY or 120) - h
 
-    draw.RoundedBox(8, x, y, w, h, theme.Background)
+    draw.RoundedBox(10, x, y, w, h, theme.Background)
+    draw.RoundedBox(10, x, y, w, 6, theme.Accent)
 
-    draw.RoundedBox(8, x, y, w, 40, theme.Header)
-    draw.SimpleText(cfg.DisplayName or ent.PrintName or "Bitcoin Miner", "DubzMiner_Title", x + w / 2, y + 20, theme.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    local lineY = y + padding
+    draw.SimpleText(cfg.DisplayName or ent.PrintName or "Bitcoin Miner", "DubzMiner_Subtitle", x + w / 2, lineY, theme.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 
-    draw.RoundedBox(6, x + 16, y + 52, w - 32, 6, theme.Header)
-    draw.RoundedBox(6, x + 16, y + 52, (w - 32) * progress, 6, theme.Accent)
-    draw.SimpleText(nextPrintLabel, "DubzMiner_Text", x + w / 2, y + 64, theme.SubText, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+    lineY = lineY + 24
+    draw.SimpleText(nextPrintLabel, "DubzMiner_Text", x + w / 2, lineY, theme.SubText, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 
-    draw.SimpleText(storedLabel, "DubzMiner_Text", x + w / 2, y + 88, theme.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-    draw.SimpleText(promptText, "DubzMiner_Text", x + w / 2, y + h - 20, theme.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    lineY = lineY + 22
+    draw.SimpleText(storedLabel, "DubzMiner_Text", x + w / 2, lineY, theme.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+
+    lineY = lineY + 22
+    draw.SimpleText(promptText, "DubzMiner_Text", x + w / 2, lineY, theme.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 end
 
 if not DubzMinerHUDHookAdded then
